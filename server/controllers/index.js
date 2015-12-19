@@ -3,22 +3,38 @@ var bluebird = require('bluebird');
 var dbConnection = require('../db/index.js');
 var mysql = require('mysql');
 
+headers = {
+  "access-control-allow-origin": "*",
+  "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "access-control-allow-headers": "Origin, X-Requested-With, content-type, accept",
+  "access-control-max-age": 10, // Seconds.
+  "Access-Control-Allow-Credentials": true,
+  'Content-Type': "application/json"
+};
 
 module.exports = {
   messages: {
-    get: function (req, res) {}, // a function which handles a get request for all messages
+    get: function (req, res) {
+      models.messages.get(function(data){        
+        res.writeHead(200, 'Succesful');
+        res.end(JSON.stringify(data));
+      })
+
+      // var testmessage = {
+      //   username: "Allan",
+      //   text: "hi"
+      // }
+      // res.writeHead(200, headers);
+      // res.end(JSON.stringify({results:[testmessage]}));
+    }, // a function which handles a get request for all messages
+
     post: function (req, res) {
-      var username = req.body.username;
-      var queryString = "SELECT id FROM users WHERE name = " + username;
-      var message = req.body.message;
-      var roomname = req.body.roomname;
-      var dataArray = [queryString,message, roomname];
-      dbConnection.query('INSERT INTO messages (userid, text, Roomname) VALUES (?,  ?,  ?)', dataArray , function(err, result){
-        if (err) throw err;
-        console.log(result);
+      models.messages.post(req, function(){
         res.writeHead(201, 'created');
         res.end();
-      });
+      })
+
+    
     } // a function which handles posting a message to the database
   },
 
@@ -29,7 +45,7 @@ module.exports = {
       var value = req.body.username;
       dbConnection.query('INSERT INTO users (name) VALUES (?)',value , function(err, result){
         if (err) throw err;
-        console.log(result);
+     
         res.writeHead(201, 'created');
         res.end();
       });

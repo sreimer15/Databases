@@ -12,9 +12,10 @@ var sequelize = new Sequelize("chatter", "root", "");
  * See http://sequelizejs.com for other datatypes you can use besides STRING. */
 var User = sequelize.define('User', {
   username: Sequelize.STRING
+
 });
 
-var Message = sequelize.define('Message' {
+var Message = sequelize.define('Message', {
   userid: Sequelize.INTEGER,
   text: Sequelize.STRING,
   roomname: Sequelize.STRING

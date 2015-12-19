@@ -14,4 +14,4 @@ module.exports = mysql.createConnection({
 
 module.exports.connect();
 
-// exports.dbConnection = dbConnection;
+
