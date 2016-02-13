@@ -2,7 +2,6 @@
  * npm install sequelize
  * before running this example. Documentation is at http://sequelizejs.com/
  */
-
 var Sequelize = require("sequelize");
 var sequelize = new Sequelize("chat", "root", "");
 /* TODO this constructor takes the database name, username, then password.
@@ -10,21 +9,24 @@ var sequelize = new Sequelize("chat", "root", "");
 
 /* first define the data structure by giving property names and datatypes
  * See http://sequelizejs.com for other datatypes you can use besides STRING. */
-var User = sequelize.define('User', {
+var User = sequelize.define('users', {
   username: Sequelize.STRING
 
 });
 
-var Message = sequelize.define('Message', {
+var Message = sequelize.define('messages', {
   userid: Sequelize.INTEGER,
   text: Sequelize.STRING,
-  roomname: Sequelize.STRING
+  Roomname: Sequelize.STRING
 });
 
 /* .sync() makes Sequelize create the database table for us if it doesn't
  *  exist already: */
  User.sync();
- Message.sync();
+ Message.sync().then(function(){
+  console.log('sync')
+ })
+
 // User.sync().success(function() {
 //   /* This callback function is called once sync succeeds. */
 
